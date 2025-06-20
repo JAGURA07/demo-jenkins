@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Secret Page</title>
+</head>
+<body>
+  <h1>El secreto es:</h1>
+  <pre id="secret"></pre>
+  <script>
+    document.getElementById("secret").textContent = decodeURIComponent("{{SECRET_MESSAGE}}");
+  </script>
+</body>
+</html>
