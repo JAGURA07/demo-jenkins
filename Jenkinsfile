@@ -7,19 +7,21 @@ pipeline {
   }
 
   stages {
-    stage('Obtener secreto') {
-      steps {
-        withCredentials([
-          conjurSecretCredential(
-            credentialsId: 'secret-message-conjur', // <-- ID de la credencial configurada en Jenkins
-            variable: 'SECRET_MESSAGE'              // <-- Nombre de la variable de entorno que usarás
-          )
-        ]) {
-          echo "Secreto recuperado: ${SECRET_MESSAGE}"
-          writeFile file: 'secret.env', text: "SECRET_MESSAGE=${SECRET_MESSAGE}"
-        }
+stage('Obtener secreto') {
+  steps {
+    script {
+      withCredentials([
+        conjurSecretCredential(
+          credentialsId: 'secret-message-conjur',
+          variable: 'SECRET_MESSAGE'
+        )
+      ]) {
+        echo "Secreto recuperado: ${env.SECRET_MESSAGE}"
+        writeFile file: 'secret.env', text: "SECRET_MESSAGE=${env.SECRET_MESSAGE}"
       }
     }
+  }
+}
 
     stage('Build Docker image') {
       steps {
