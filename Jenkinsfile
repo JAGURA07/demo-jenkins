@@ -11,13 +11,12 @@ pipeline {
       steps {
         withCredentials([
           conjurSecretCredential(
-            credentialsId: 'conjur-api-jenkins',
-            variablePath: 'data/admin/jenkins/secret_message',
-            variable: 'SECRET_MESSAGE'
+            credentialsId: 'secret-message-conjur', // <-- ID de la credencial configurada en Jenkins
+            variable: 'SECRET_MESSAGE'              // <-- Nombre de la variable de entorno que usarás
           )
         ]) {
-          echo "Secreto recuperado: $SECRET_MESSAGE"
-          writeFile file: 'secret.env', text: "SECRET_MESSAGE=$SECRET_MESSAGE"
+          echo "Secreto recuperado: ${SECRET_MESSAGE}"
+          writeFile file: 'secret.env', text: "SECRET_MESSAGE=${SECRET_MESSAGE}"
         }
       }
     }
